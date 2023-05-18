@@ -9,10 +9,38 @@ import Foundation
 
 var theCollege = College()
 
+
 class College {
     @Published var allClasses: [Discipline] = []
-    public init() {
-        allClasses = [
+    
+    init() {
+        load()
+    }
+    
+    let savePath = FileManager.documentsDirectory.appendingPathComponent("NameOfFileToSaveDataIn")
+    func save() {
+        
+        // documentsDirectory is a non-standard property that we added, below
+        do {
+            let data = try JSONEncoder().encode(allClasses)
+            try data.write(to: savePath, options: [.atomic, .completeFileProtection])
+        } catch {
+            print("Unable to save data.")
+        }
+    }
+    
+    func load() {
+        do {
+            let data = try Data(contentsOf: savePath)
+            allClasses = try JSONDecoder().decode([Discipline].self, from: data)
+        } catch {
+            //allClasses = []
+            loadDefaultData()
+        }
+    }
+    
+    func loadDefaultData() {
+        allClasses =  [
             Discipline(name: "MoBAS",
                        courses:
                         [Course(name: "BIT 101"),
@@ -23,15 +51,23 @@ class College {
                          Course(name: "ENG 102")])
         ]
     }
+    
 }
 
-struct Discipline : Identifiable {
+extension FileManager {
+    static var documentsDirectory: URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+}
+
+struct Discipline : Identifiable, Codable {
     let id = UUID()
     let name:String
     var courses: [Course]
 }
 
-struct Course : Identifiable {
+struct Course : Identifiable, Codable {
     let id = UUID()
     let name:String
     var isEnrolled = false

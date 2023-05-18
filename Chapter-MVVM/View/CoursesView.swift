@@ -10,12 +10,14 @@ import SwiftUI
 struct CoursesView: View {
     @StateObject private var viewModel = ViewModel()
     
+    @State private var showAddClassActionSheet = false
+    @State private var newDiscName = ""
+    @State private var newCourseName = ""
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text("Courses")
+                .font(.title)
             List {
                 // If we want to change the structs:
                 // Use Bindings here
@@ -46,8 +48,36 @@ struct CoursesView: View {
                     }
                 }
             }
+            Button("Add a course") {
+                showAddClassActionSheet = true
+            }
+            .foregroundColor(.white)
+            .padding()
+            .background(.blue)
+            .clipShape(Capsule())
         }
         .padding()
+        .fullScreenCover(isPresented: $showAddClassActionSheet) {
+            VStack {
+                Text("Add a new course").font(.title)
+                Text("Discipline name:")
+                TextField("Ex: ENG, BIT", text: $newDiscName)
+                Text("Course name:")
+                TextField("Ex: Shakespeare, Intro To Web Design", text: $newCourseName)
+                HStack {
+                    Button("Cancel") {
+                        showAddClassActionSheet = false
+                    }
+                    Spacer()
+                    Button("Save" ) {
+                        viewModel.addNewCourse(discName: newDiscName, courseName: newCourseName)
+                        newDiscName = ""
+                        newCourseName = ""
+                        showAddClassActionSheet = false
+                    }
+                }.padding()
+            }.padding()
+        }
     }
 }
 
