@@ -57,11 +57,11 @@
 		E4AFAA552A14A02200BEE234 /* Chapter-MVVM */ = {
 			isa = PBXGroup;
 			children = (
+				E4AFAA562A14A02200BEE234 /* Chapter_MVVMApp.swift */,
 				E4AFAA582A14A02200BEE234 /* ContentView.swift */,
 				E4AFAA652A14A03C00BEE234 /* View */,
 				E4AFAA662A14A04300BEE234 /* ViewModel-Binder */,
 				E4AFAA642A14A03100BEE234 /* Model */,
-				E4AFAA562A14A02200BEE234 /* Chapter_MVVMApp.swift */,
 				E4AFAA5A2A14A02500BEE234 /* Assets.xcassets */,
 				E4AFAA5C2A14A02500BEE234 /* Preview Content */,
 			);
