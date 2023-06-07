@@ -43,12 +43,12 @@ class College {
         allClasses =  [
             Discipline(name: "MoBAS",
                        courses:
-                        [Course(name: "BIT 101"),
-                         Course(name: "BIT 102")]),
+                        [Course(name: "BIT 101", sections: [Sect(time:"M/W 11am-1pm"), Sect(time:"Tu/Th 8pm-10:05pm")]),
+                         Course(name: "BIT 102", sections: [Sect(time:"M/W 3pm-5pm"), Sect(time:"Tu/Th 11am-1pm")])]),
             Discipline(name: "English",
                        courses:
-                        [Course(name: "ENG 101"),
-                         Course(name: "ENG 102")])
+                        [Course(name: "ENG 101", sections: [Sect(time:"M/W 9am-11pm"), Sect(time:"Tu/Th 8pm-10:05pm")]),
+                         Course(name: "ENG 102", sections: [Sect(time:"M/W 11am-1pm"), Sect(time:"Tu/Th 5pm-7pm")])])
         ]
     }
     
@@ -70,5 +70,11 @@ struct Discipline : Identifiable, Codable {
 struct Course : Identifiable, Codable {
     let id = UUID()
     let name:String
+    var sections: [Sect]
+}
+
+struct Sect: Identifiable, Codable {
+    let id = UUID()
+    let time:String
     var isEnrolled = false
 }

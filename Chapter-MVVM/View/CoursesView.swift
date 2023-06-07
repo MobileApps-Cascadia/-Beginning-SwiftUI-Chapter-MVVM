@@ -25,23 +25,33 @@ struct CoursesView: View {
                 ForEach($viewModel.allClasses) { $disc in
                     Section(header: Text("\(disc.name) Courses:")) {
                         ForEach($disc.courses) { $course in
-                            HStack {
-                                Text(course.name)
-                                    .swipeActions(edge: .trailing) {
-                                        Button {
-                                            course.isEnrolled.toggle()
-                                        } label: {
-                                            Image(systemName: "book")
-                                        }.tint(.green)
+                            DisclosureGroup("\(course.name)") {
+                                ForEach($course.sections){ $section in
+                                    HStack{
+                                        Text("\(section.time)")
+                                            .swipeActions() {
+                                                Button {
+                                                    section.isEnrolled.toggle()
+                                                } label: {
+                                                    Image(systemName: "book")
+                                                }.tint(.green)
+                                            }
+                                            /*.onChange(of: section){newValue in
+                                                ForEach($course.section) { $sect in
+                                                    if (sect.isEnrolled == true && sect != section){
+                                                        sect.isEnrolled.toggle()
+                                                    }
+                                                }
+                                            }*/
+                                        Spacer()
+                                        if section.isEnrolled {
+                                            Image(systemName: "checkmark")
+                                                .foregroundColor(.green)
+                                                .font(.largeTitle)
+                                        } else {
+                                            Image(systemName: "plus")
+                                        }
                                     }
-                                Spacer()
-                                if course.isEnrolled {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(.green)
-                                        .font(.largeTitle)
-                                } else {
-                                    Image(systemName: "plus")
-                                    
                                 }
                             }
                         }
